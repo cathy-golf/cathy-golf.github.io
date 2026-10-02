@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>곽유진 프로 골프 레슨 상담</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#16302a;
+    --green-mid:#2f5d4d;
+    --cream:#f4efe4;
+    --gold:#c3a05a;
+    --ink:#16302a;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--green-deep);
+    background-image:radial-gradient(circle at 20% 0%, #1d3f36 0%, var(--green-deep) 55%);
+    color:var(--cream);
+    font-family:'Noto Sans KR',sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100%;
+    padding:28px 16px;
+  }
+  .card{
+    width:100%;
+    max-width:420px;
+    background:var(--cream);
+    color:var(--ink);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+  header{
+    padding:28px 28px 20px;
+    background:var(--green-deep);
+    color:var(--cream);
+  }
+  header .eyebrow{
+    font-size:13px;
+    color:var(--gold);
+    margin:0 0 6px;
+    letter-spacing:.02em;
+  }
+  header h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:26px;
+    line-height:1.25;
+    margin:0;
+  }
+  .progress{
+    height:3px;
+    background:rgba(244,239,228,.18);
+  }
+  .progress-bar{
+    height:100%;
+    background:var(--gold);
+    width:12.5%;
+    transition:width .35s ease;
+  }
+  .steps{position:relative;}
+  .step{
+    display:none;
+    padding:30px 28px 28px;
+  }
+  .step.active{display:block;}
+  .step .q{
+    font-family:'Fraunces',serif;
+    font-size:21px;
+    font-weight:600;
+    line-height:1.4;
+    margin:0 0 22px;
+  }
+  input[type=text], input[type=tel]{
+    width:100%;
+    padding:14px 16px;
+    border:1.5px solid #d8cfb8;
+    border-radius:12px;
+    font-size:16px;
+    font-family:inherit;
+    background:#fff;
+    color:var(--ink);
+  }
+  input:focus{outline:2px solid var(--green-mid); outline-offset:1px;}
+  .opts{display:flex; flex-direction:column; gap:10px;}
+  .opt{
+    border:1.5px solid #d8cfb8;
+    background:#fff;
+    border-radius:12px;
+    padding:15px 16px;
+    font-size:15.5px;
+    font-family:inherit;
+    text-align:left;
+    cursor:pointer;
+    color:var(--ink);
+    transition:border-color .15s, background .15s;
+  }
+  .opt:active{transform:scale(.99);}
+  .opt.selected{
+    border-color:var(--green-mid);
+    background:#eaf0ea;
+    font-weight:700;
+  }
+  .nav{
+    display:flex;
+    gap:10px;
+    padding:4px 28px 28px;
+  }
+  .btn{
+    flex:1;
+    padding:14px;
+    border-radius:12px;
+    border:none;
+    font-size:15.5px;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .btn-primary{background:var(--green-deep); color:var(--cream);}
+  .btn-primary:disabled{background:#b9b9ad; cursor:not-allowed;}
+  .btn-ghost{background:transparent; color:var(--green-mid); border:1.5px solid #d8cfb8; flex:0 0 84px;}
+  .final{
+    padding:38px 28px 34px;
+    text-align:center;
+  }
+  .final .check{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--green-deep);color:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;font-size:26px;
+  }
+  .final h2{
+    font-family:'Fraunces',serif;
+    font-size:22px;margin:0 0 10px;
+  }
+  .final p{font-size:14.5px;color:#4a4a3f;line-height:1.6;margin:0 0 26px;}
+  .kakao-btn{
+    display:block;
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    background:#FEE500;
+    color:#191600;
+    font-weight:700;
+    font-size:15.5px;
+    text-decoration:none;
+    border:none;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <header>
+    <p class="eyebrow">무료 레슨 진단</p>
+    <h1>나에게 맞는<br>골프 레슨 찾기</h1>
+  </header>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <div class="steps" id="steps">
+
+    <div class="step active" data-step="1">
+      <p class="q">이름을 알려주세요</p>
+      <input type="text" id="name" placeholder="홍길동" autocomplete="name">
+    </div>
+
+    <div class="step" data-step="2">
+      <p class="q">연락처를 남겨주세요<br><span style="font-size:13px;font-weight:400;color:#6b6b5e;">카톡 ID 또는 휴대폰 번호</span></p>
+      <input type="text" id="contact" placeholder="kakao_id 또는 010-0000-0000">
+    </div>
+
+    <div class="step" data-step="3">
+      <p class="q">골프 실력이 어느 정도이신가요?</p>
+      <div class="opts" data-field="level">
+        <button class="opt">초보</button>
+        <button class="opt">중급</button>
+        <button class="opt">상급</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="4">
+      <p class="q">레슨을 통해 가장 필요한 것은?</p>
+      <div class="opts" data-field="need">
+        <button class="opt">멋진 스윙</button>
+        <button class="opt">일관성</button>
+        <button class="opt">거리 늘리기</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="5">
+      <p class="q">평균 몇 타 정도 치시나요?</p>
+      <div class="opts" data-field="score">
+        <button class="opt">70대</button>
+        <button class="opt">80~90대</button>
+        <button class="opt">90~100 이상</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="6">
+      <p class="q">연령대를 알려주세요</p>
+      <div class="opts" data-field="age">
+        <button class="opt">20~30대</button>
+        <button class="opt">30~40대</button>
+        <button class="opt">50대 이상</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="7">
+      <p class="q">가장 잘하고 싶은 파트는?</p>
+      <div class="opts" data-field="focus">
+        <button class="opt">드라이버(우드)</button>
+        <button class="opt">아이언샷</button>
+        <button class="opt">숏게임</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="8">
+      <p class="q">신체 불편 부위<br><span style="font-size:13px;font-weight:400;color:#6b6b5e;">현재 골프 플레이 시 불편함이나 통증을 느끼는 부위가 있다면 적어주세요. 없으면 비워두셔도 돼요.</span></p>
+      <input type="text" id="pain" placeholder="예: 허리, 어깨 등">
+    </div>
+
+    <div class="step" data-step="final">
+      <div class="final">
+        <div class="check">✓</div>
+        <h2>진단이 완료됐어요</h2>
+        <p>아래 버튼을 눌러 카카오톡으로 상담을 이어가 주세요.<br>입력해주신 내용을 참고해 맞춤 레슨을 안내해 드릴게요.</p>
+        <a class="kakao-btn" href="https://tinyurl.com/yujingolf" target="_blank" rel="noopener">카카오톡으로 상담 받기</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav" id="nav">
+    <button class="btn btn-ghost" id="backBtn">이전</button>
+    <button class="btn btn-primary" id="nextBtn" disabled>다음</button>
+  </div>
+</div>
+
+<script>
+  const stepsOrder = ['1','2','3','4','5','6','7','8','final'];
+  let current = 0;
+  const answers = {};
+
+  const stepsEl = document.getElementById('steps');
+  const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backBtn');
+  const navEl = document.getElementById('nav');
+  const progressBar = document.getElementById('progressBar');
+
+  function showStep(i){
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    const key = stepsOrder[i];
+    const el = document.querySelector(`.step[data-step="${key}"]`);
+    el.classList.add('active');
+    progressBar.style.width = ((i+1)/stepsOrder.length*100)+'%';
+    backBtn.style.visibility = i===0 ? 'hidden' : 'visible';
+    if(key==='final'){
+      navEl.style.display='none';
+    } else {
+      navEl.style.display='flex';
+      validateStep(key);
+    }
+  }
+
+  function validateStep(key){
+    if(key==='1'){
+      nextBtn.disabled = document.getElementById('name').value.trim()==='';
+    } else if(key==='2'){
+      nextBtn.disabled = document.getElementById('contact').value.trim()==='';
+    } else if(key==='8'){
+      nextBtn.disabled = false;
+    } else {
+      nextBtn.disabled = !answers[key];
+    }
+  }
+
+  document.getElementById('name').addEventListener('input', e=>{
+    answers['1']=e.target.value.trim();
+    validateStep('1');
+  });
+  document.getElementById('contact').addEventListener('input', e=>{
+    answers['2']=e.target.value.trim();
+    validateStep('2');
+  });
+  document.getElementById('pain').addEventListener('input', e=>{
+    answers['8']=e.target.value.trim();
+  });
+
+  document.querySelectorAll('.opts').forEach(group=>{
+    const step = group.closest('.step').dataset.step;
+    group.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        group.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+        answers[step]=btn.textContent;
+        validateStep(step);
+      });
+    });
+  });
+
+  nextBtn.addEventListener('click', ()=>{
+    if(current < stepsOrder.length-1){
+      current++;
+      showStep(current);
+    }
+  });
+  backBtn.addEventListener('click', ()=>{
+    if(current>0){
+      current--;
+      showStep(current);
+    }
+  });
+
+  showStep(current);
+</script>
+</body>
+</html>
